@@ -1,134 +1,150 @@
-# Pizza_Shop
+# CafeXpress ☕
 
 ## Overview
 
-Pizza_Shop is a Java-based CRUD application developed during the CDAC workshop. The project simulates a pizza shop management system, allowing customers to register, login, view the pizza menu, place orders, and view their order history. Admin users can manage the menu, update prices, view all customers and orders, calculate total profit, and delete pizzas. The application demonstrates core Java concepts, JDBC for database connectivity, and basic SQL for backend data handling.
+**CafeXpress** is a Java-based CRUD console application developed as part of a CDAC workshop. It simulates a cafe management system where:
+
+- Customers can **register**, **log in**, **browse menu items** (like Coffee, Snacks, Beverages, etc.), **place orders**, and **view their order history**.
+- Admins can **manage menu items**, **update prices**, **view all customers and orders**, **calculate total profit**, and **delete menu items** (only if not ordered).
+
+This project demonstrates **core Java concepts**, **JDBC**, and **SQL**, providing a strong foundation for building database-driven applications.
 
 ---
 
-## Features
+## ✨ Features
 
-### Customer Features
-- **Registration:** New customers can register by providing their name, email, password, and mobile number.
-- **Login:** Existing customers can log in using their email and password.
-- **View Pizza Menu:** Customers can browse pizzas by category (Veg Pizza, Non Veg Pizza, Garlic Bread, Drinks).
-- **Order Pizza:** Customers can place orders by selecting a pizza from the menu.
-- **Order History:** Customers can view their previous orders.
+### ☕ Customer Features
+- **Registration:** Sign up using name, email, password, and mobile number.
+- **Login:** Authenticate using email and password.
+- **View Menu:** Browse cafe items by category (Coffee, Snacks, Bakery, Beverages).
+- **Place Order:** Select menu items by ID to place an order.
+- **Order History:** View all previous orders.
 
-### Admin Features
-- **Admin Login:** Admin can log in with predefined credentials.
-- **Add Pizza:** Admin can add new pizzas to the menu under different categories.
-- **Update Pizza Price:** Admin can update the price of any pizza.
-- **View All Customers:** Admin can view a list of all registered customers.
-- **View All Orders:** Admin can view all orders placed by customers, including details.
-- **Calculate Total Profit:** Admin can view the total profit based on all orders.
-- **Delete Pizza:** Admin can delete pizzas from the menu (only if not already ordered).
+### 🛠️ Admin Features
+- **Admin Login:** Use predefined admin credentials.
+- **Add Menu Item:** Insert new items under chosen categories.
+- **Update Item Price:** Modify the price of an item.
+- **View All Customers:** Display a list of registered customers.
+- **View All Orders:** See all orders placed with details.
+- **Calculate Total Profit:** Get total revenue generated.
+- **Delete Menu Item:** Remove items not yet ordered.
 
 ---
 
-## Folder Structure
+## 📁 Folder Structure
 
-```
-Pizza_Shop/
+CafeXpress/
 │
 ├── src/
-│   └── com/
-│       └── dkte/
-│           └── pizzashop/
-│               ├── dao/         # Data Access Objects for DB operations
-│               │   ├── CustomerDao.java
-│               │   ├── OrderDao.java
-│               │   └── PizzaDao.java
-│               ├── entities/    # Entity classes representing DB tables
-│               │   ├── Customer.java
-│               │   ├── Order.java
-│               │   ├── OrderDetalis.java
-│               │   └── Pizza.java
-│               ├── main/        # Main menu and UI logic
-│               │   ├── AdminMenu.java
-│               │   ├── Menu.java
-│               │   └── SubMenu.java
-│               └── utils/       # Utility classes (e.g., DBUtils.java)
+│ └── com/
+│ └── cafexpress/
+│ ├── dao/ # DAO classes for DB operations
+│ │ ├── CustomerDao.java
+│ │ ├── OrderDao.java
+│ │ └── MenuItemDao.java
+│ ├── entities/ # Entity/POJO classes
+│ │ ├── Customer.java
+│ │ ├── Order.java
+│ │ ├── OrderDetails.java
+│ │ └── MenuItem.java
+│ ├── main/ # UI & menu logic
+│ │ ├── AdminMenu.java
+│ │ ├── Menu.java
+│ │ └── SubMenu.java
+│ └── utils/
+│ └── DBUtils.java
 │
-├── db.sql           # SQL script to create and populate the database
-├── dataset.sql      # Extended SQL with triggers and history table
-├── README.md        # Project documentation
-└── .classpath, .project, .settings/  # Eclipse project files
-```
+├── db.sql # SQL schema + sample data
+├── dataset.sql # Extended SQL with triggers/history
+├── README.md # Project documentation
+└── .classpath, .project, .settings/ # Eclipse project configs
+
 
 ---
 
-## Code Structure and Explanation
+## 🧩 Code Modules
 
-### 1. **DAO Layer**
-- [`CustomerDao`](src/com/dkte/pizzashop/dao/CustomerDao.java): Handles CRUD operations for customers.
-- [`PizzaDao`](src/com/dkte/pizzashop/dao/PizzaDao.java): Handles CRUD operations for pizzas/menu items.
-- [`OrderDao`](src/com/dkte/pizzashop/dao/OrderDao.java): Handles order placement, order history, and profit calculation.
+### 1. DAO Layer
+- **CustomerDao:** Handles registration, login, and customer listing.
+- **MenuItemDao:** Manages CRUD operations for cafe menu items.
+- **OrderDao:** Handles order placement, history, and profit calculations.
 
-### 2. **Entities**
+### 2. Entity Classes
+- **Customer.java**  
+  Stores customer info like ID, name, email, password, and mobile.
 
-- [`Customer`](src/com/dkte/pizzashop/entities/Customer.java):  
-  This class is responsible for storing and managing all information related to a customer. It includes fields for customer ID, name, email, password, and mobile number. The class provides methods for accepting user input (used during registration), comparing customers (for login authentication), and displaying customer details. It also overrides `equals` and `hashCode` to ensure proper comparison based on email and password, which is useful for login validation.
+- **MenuItem.java**  
+  Represents menu items with ID, name, description, category, and price.
 
-- [`Pizza`](src/com/dkte/pizzashop/entities/Pizza.java):  
-  This class represents each pizza or menu item available in the shop. It contains fields for the menu ID, pizza name, description, and price. The class includes methods for accepting pizza details from the admin (when adding or updating pizzas) and for displaying pizza information to users. This structure allows the menu to be dynamic and easily managed by the admin, and ensures customers always see up-to-date menu options.
+- **Order.java**  
+  Maps customer orders with customer ID and menu item ID.
 
-- [`Order`](src/com/dkte/pizzashop/entities/Order.java):  
-  This class models a customer's order. It holds the order ID, the customer ID (who placed the order), and the menu ID (which pizza was ordered). It provides a simple structure for creating and tracking orders, making it easy to link customers to their purchases and manage order history. The class also includes a `toString` method for displaying order details in a readable format.
+- **OrderDetails.java**  
+  Used to display comprehensive order info (order ID, customer name, item name, price).
 
-- [`OrderDetalis`](src/com/dkte/pizzashop/entities/OrderDetalis.java):  
-  This class is used to present detailed information about each order, especially for admin views and order history. It includes the order ID, customer ID, customer name, pizza name, and price. By combining data from multiple tables, it helps display comprehensive order summaries, making it easier for admins to review all transactions and for customers to see their past orders. This class is particularly useful for generating reports and detailed listings in the admin panel.
+### 3. UI / Main Logic
+- **Menu.java**  
+  Entry point. Offers login/register/admin options.
 
-### 3. **Main/UI Layer**
-- [`Menu`](src/com/dkte/pizzashop/main/Menu.java): Entry point for the application, handles main menu, login, registration, and admin login.
-- [`SubMenu`](src/com/dkte/pizzashop/main/SubMenu.java): Handles customer-specific actions after login (view menu, order, history).
-- [`AdminMenu`](src/com/dkte/pizzashop/main/AdminMenu.java): Handles admin-specific actions (add/update/delete pizza, view customers/orders, profit).
+- **SubMenu.java**  
+  Customer dashboard post-login (view menu, order items, view history).
 
-### 4. **Utilities**
-- [`DBUtils`](src/com/dkte/pizzashop/utils/DBUtils.java): Provides a method to establish a connection to the MySQL database.
+- **AdminMenu.java**  
+  Admin dashboard to manage menu, view customers/orders, and profit stats.
 
-### 5. **Database Scripts**
-- [`db.sql`](db.sql): Creates the database schema and populates initial data.
-- [`dataset.sql`](dataset.sql): Adds advanced features like a menu history table and triggers for tracking deleted menu items.
-
----
-
-## What You Will Learn
-
-- **Java OOP Concepts:** Classes, objects, encapsulation, and inheritance.
-- **JDBC:** Connecting Java applications to MySQL, executing SQL queries, and handling results.
-- **CRUD Operations:** Implementing Create, Read, Update, Delete for multiple entities.
-- **Menu-driven Console Application:** Designing user-friendly command-line interfaces.
-- **Exception Handling:** Managing SQL and input exceptions gracefully.
-- **Database Design:** Creating normalized tables, using foreign keys, and writing triggers.
-- **Project Structure:** Organizing code into packages for maintainability and clarity.
+### 4. Utilities
+- **DBUtils.java**  
+  Handles MySQL connection logic.
 
 ---
 
-## How to Run
+## 🗃️ Database Setup
 
-1. **Set up MySQL Database:**
-   - Run the `db.sql` or `dataset.sql` script in your MySQL server to create and populate the database.
+- **`db.sql`**:  
+  Creates all necessary tables (`customer`, `menu`, `orders`) with sample data.
 
-2. **Configure Database Connection:**
-   - Ensure the credentials in [`DBUtils.java`](src/com/dkte/pizzashop/utils/DBUtils.java) match your MySQL setup.
-
-3. **Build and Run:**
-   - Open the project in Eclipse or any Java IDE.
-   - Add the MySQL JDBC driver to your project libraries.
-   - Run the `Menu` class to start the application.
+- **`dataset.sql`**:  
+  Adds extra features such as triggers and a deleted item history table.
 
 ---
 
-## Admin Credentials
+## 📚 What You Will Learn
 
-- **Email:** admin@gmail.com
-- **Password:** admin
+- Object-Oriented Programming (OOP) in Java.
+- JDBC for connecting Java apps with MySQL.
+- Building a modular CRUD application.
+- Exception handling and input validation.
+- Writing and executing SQL joins, foreign keys, triggers.
+- Multi-role access handling (Customer vs Admin).
+- Code structuring in layered architecture.
 
 ---
+
+## ▶️ How to Run
+
+1. **Set Up MySQL:**
+   - Import `db.sql` or `dataset.sql` into your MySQL database.
+
+2. **Update DB Connection:**
+   - In `DBUtils.java`, replace:
+     ```java
+     String URL = "jdbc:mysql://localhost:3306/cafedb";
+     String USERNAME = "root";
+     String PASSWORD = "your_mysql_password";
+     ```
+
+3. **Open in IDE (Eclipse/IntelliJ):**
+   - Ensure `mysql-connector-java` is added to the build path.
+
+4. **Run the App:**
+   - Execute the `Menu.java` file.
+
+---
+
+## 🔐 Admin Credentials
+
+Email : admin@gmail.com
+Password : admin
 
 ## Conclusion
-
-This project demonstrates a complete workflow for a CRUD-based Java application with a real-world use case. It covers both backend (database) and frontend (console UI) aspects, making it a great learning resource for interviews and practical Java development.
-
----
+CafeXpress is a practical Java console application that showcases core concepts like JDBC, CRUD operations, and role-based access (Customer/Admin). It's a great mini-project for learning Java, preparing for interviews, and understanding real-world application structure.
